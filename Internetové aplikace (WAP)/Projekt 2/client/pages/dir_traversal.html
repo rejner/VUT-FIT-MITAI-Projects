@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/traversal.css">
+    <title>Directory Traversal</title>
+</head>
+<body>
+    <script src="../scripts/ui.js" onload="load_color_mode();"></script>
+    <script src="../scripts/dir_traversal.js"></script>
+    <nav>
+        <div class="typewriter">
+            <h1># Directory traversal attack.</h1>
+        </div>
+        
+        <a href="../index.html"><h1 class="back-btn">../Back</h1></a>
+
+    </nav>
+    <h1>
+        ## About Directory traversal attack
+    </h1>
+    <p> 
+        A directory traversal (or path traversal) attack exploits insufficient security validation or sanitization of user-supplied 
+        file names, such that characters representing "traverse to parent directory" are passed through to the operating 
+        system's file system API. An affected application can be exploited to gain unauthorized access to the file system.
+    </p>
+    <p> 
+        Directory traversal is also known as the ../ (dot dot slash) attack, directory climbing, and backtracking. 
+        Some forms of this attack are also canonicalization attacks.
+    </p>
+
+    <h1>
+        ## Preventive measures
+    </h1>
+    <ul>
+        <li>Process URI requests that do not result in a file request, e.g., executing a hook into user code, before continuing below.</li>
+        <li>When a URI request for a file/directory is to be made, build a full path to the file/directory if it exists, and normalize all characters (e.g., %20 converted to spaces).</li>
+        <li>It is assumed that a 'Document Root' fully qualified, normalized, path is known, and this string has a length N. Assume that no files outside this directory can be served.</li>
+        <li>Ensure that the first N characters of the fully qualified path to the requested file is exactly the same as the 'Document Root'.</li>
+        <li>If so, allow the file to be returned.</li>
+        <li>If not, return an error, since the request is clearly out of bounds from what the web-server should be allowed to serve</li>
+    </ul>
+
+    <h1>
+        ## Demo Example
+    </h1>
+    <p>
+        Below, you can see a file system hierarchy of our vulnerable server which lets you read files through its
+        '/files/read' endpoint. The purpose of this design was to let users load dynamically menu of 
+        ice cream flavours based on a day of the week. Authors didn't care much about security and didn't include
+        any code which would prevent accessing anything other than 'ice-cream' directory with menus in markdown.
+    </p>
+
+    <h3>
+        ### The hierarchy looks like this:
+    </h3>
+    <textarea disabled>
+.
+|--- etc
+|       |--- passwd  <---- try to read this file
+|
+|--- wwwroot
+        |
+        |--- data
+        │      │
+        |      |--- ice-cream
+        │      │      |
+        |      |      |--- monday.md   <---- default
+        |      |      |--- tuesday.md
+        │      │
+        |      |--- README.md
+        │
+        |--- index.html
+    </textarea>
+
+    <p>
+        Vulnerable endpoint <i>'/files/read'</i> is expecting filename input passed as URL querry parameter called <i>file</i>.
+        Typing <i>../</i> represents directory one level higher in the hierarchy. Try passing filename <i>monday.md</i> as input and send request to the server.
+    </p>
+    <div class="traversal window">
+        <div class="traversal url row">
+            <div class="traversal rowname">GET URL:</div> 
+            <span id="traversal-url">http://192.168.0.101/files/read?file=</span>
+            <span id="traversal-file">monday.md</span>
+        </div>
+        <div class="traversal input row">
+            <div class="traversal rowname">Input:</div>
+            <input id="file-input" oninput="update_url(this.id);" type="text" value="monday.md">
+        </div>
+        <div class="traversal btn row" onclick="send_request();">Send request</div>
+        <div class="traversal row">Response:</div>
+        <div id="traversal-message" class="traversal message row"></div>
+    </div>
+
+    <div class="security row">
+        <p style="width: 250px;">Enable security measure: (path validation)</p>
+        <div id="enable-security" class="checkbox" onclick="{toggle_checkbox(this.id); toggle_security();}"></div>
+    </div>
+
+    <p>
+        As you can see, ice cream flavour menu was returned by the server. Now, if you type <i>../README.md</i>, you will be able
+        to read some file outside of <i>ice-cream</i> directory! Now, feel free to explore rest of the filesystem. :) 
+    </p>
+
+    <h2>
+        ### What happened?
+    </h2>
+    <p> 
+        Since vulnerable endpoint doesn't validate received path, anything given by user is executed by file reading method.
+        If the attacker doesn't know the filesystem hierarchy, it can be hard to guess and find certain files. Yet many projects
+        will be structured in similar and standardized ways so finding the right path to crucial configuration files might be
+        just a matter of time and determination.
+    </p>
+
+    <h2>
+        ### Protection example: Path Validation
+    </h2>
+    <p> 
+        The simple and yet powerful validation technique used on the server side after enabling security measure does the following:
+        <ul>
+            <li>Determine path prefix to which our endpoint will have access to.</li>
+            <li>Use <i>join()</i> method from <i>path</i> library to concatenate required prefix with given path to desired file (the  
+                <i>join()</i> method will return resulting path stripped off the <i>../</i> notation).</li>
+            <li>Validate that resulting path string starts with required prefix (<i>string.startsWith()</i> method can be used).</li>
+        </ul>
+    </p>
+
+
+    <footer>
+        Created by Michal Rein, 2022
+    </footer>
+
+</body>
+</html>

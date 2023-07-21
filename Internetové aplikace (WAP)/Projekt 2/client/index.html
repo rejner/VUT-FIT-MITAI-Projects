@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/general.css">
+    <title>Web vulnerabilities</title>
+</head>
+<body>
+    <nav>
+        <div class="typewriter">
+            <h1>
+                # Web vulnerabilities demonstration.
+            </h1>
+        </div>
+        <div id="color-mode-btn" onclick="switch_color_mode();">Light mode</div>
+    </nav>
+    <h1>
+        ## Welcome!
+    </h1>
+    <p>
+        The purpose of this web is to educate about some of the most spreaded and misused vulnerabilities which
+        can be found across the internet. Each page contains a description, possible preventive measures
+        and also a simple interactive demonstration of such an attack with option to enable security measure and 
+        its explanation. 
+    </p>
+    <h3>
+        ### Choose a vulnerability:
+    </h3>
+    <ul>
+        <a href="./pages/xss.html"><li class="link">Cross-site scripting</li></a>
+        <a href="./pages/csrf.html"><li class="link">Cross-site request forgery</li></a>
+        <a href="./pages/clickjacking.html"><li class="link">Clickjacking</li></a>
+        <a href="./pages/dir_traversal.html"><li class="link">Directory traversal attack</li></a>
+    </ul>
+
+    <footer>
+        Created by Michal Rein, 2022
+    </footer>
+
+    <script src="scripts/ui.js" onload="load_color_mode();"></script>
+</body>
+</html>

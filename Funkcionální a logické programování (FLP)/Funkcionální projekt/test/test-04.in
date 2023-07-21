@@ -1,0 +1,9 @@
+B,C,D,A,S
+a,b,c,d,e
+S
+S->A
+S->B
+S->C
+A->aaAaaaab
+B->bbbBbc
+D->eeeeBAeee

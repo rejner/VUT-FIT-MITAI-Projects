@@ -1,0 +1,41 @@
+#### Stručně odpovězte na následující otázky: ######
+
+1. Proč je nutné určovat, zda má výpočet pokračovat?
+==============================================================================
+Neboť samotný výčet iterace je možné v mnoha případech ukončit dříve, než
+dojdeme k limitní hodnotě počtu iterací. Kdybychom nechali výpočet běžet do
+maxima iterací, zbytečně bychom počítali hodnoty, které jsou již dávno irelevantní a
+nepotřebné.
+
+2. Byla "Line" vektorizace efektivní? Proč?
+==============================================================================
+Ano, neboť je díky této implementaci možné počítat paralelně několik pixelů řádku. 
+
+
+3. Jaká byla dosažena výkonnost v Intel Advisoru pro jednotlivé implementace 
+(v GFLOPS)?
+==============================================================================
+Line - 23.57 GFLOPS
+Batch - 26.88 GFLOPS
+
+
+4. Jaká část kódu byla paralizována v "Line" implementaci? Vyčteme tuto 
+informaci i u batch kalkulátoru?
+==============================================================================
+Line - V mé implementaci byla vektorizována jednak smyčka předpočítávající 
+počáteční x, y hodnoty, a také nejzanořenější smyčka hlavního výpočtu iterující přes celý řádek.
+
+Batch - Zde byla rovněž vektorizována smyčka pro předpočítání x, y, avšak
+nejvíce zanořená smyčka iterující přes batch pixelů řádku byla kompletně
+rozbalena a v Advisoru není poznat např. kolik přesně čašu zabral výpočet
+uvnitř těchto smyček. Označená jako vektorizovaná však je s efektivitou kolem 50%.
+
+5. Co vyčteme z Roofline modelu pro obě vektorizované implementace?
+==============================================================================
+V Roofline modelu lze vyčíst efektivita a omezení výkonu výpočtu jednotlivých
+vektorizovaných smyček. Moje konkrétní implementace obě spadají mezi
+L2 a L3 bandwith, což není úplně optimální a pravděpodobně dochází k častému
+cache miss na L1. Lepších výsledků se mi však i po nejrůznějších optimalizacích a
+experimentech nepodařilo dosáhnout. 
+
+

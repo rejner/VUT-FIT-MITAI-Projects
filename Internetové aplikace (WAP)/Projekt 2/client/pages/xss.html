@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/chat.css">
+    <title>Cross-site Scripting</title>
+</head>
+<body>
+    <script src="../scripts/ui.js" onload="load_color_mode();"></script>
+    <script src="../scripts/xss.js"></script>
+    <nav>
+        <div class="typewriter">
+            <h1>
+                # Cross-site Scripting XSS.
+            </h1>
+        </div>
+        <a href="../index.html"><h1 class="back-btn">../Back</h1></a>
+    </nav>
+    <h1>
+        ## About Cross-site Scripting
+    </h1>
+    <p>
+        Cross-site scripting (XSS) is a type of security vulnerability that can be found in some web applications. 
+        XSS attacks enable attackers to inject client-side scripts into web pages viewed by other users. A cross-site 
+        scripting vulnerability may be used by attackers to bypass access controls such as the same-origin policy. 
+        Cross-site scripting carried out on websites accounted for roughly 84% of all security vulnerabilities documented 
+        by Symantec up until 2007. XSS effects vary in range from petty nuisance to significant security risk, depending 
+        on the sensitivity of the data handled by the vulnerable site and the nature of any security mitigation implemented 
+        by the site's owner network.
+    </p>
+    <p>
+        There are 3 common types of XSS:
+    </p>
+    <ul>
+        <li>Reflected XSS - code is reflected back to client as a result and gets executed</li>
+        <li>DOM XSS - modification of DOM (site's appearence)</li>
+        <li>Stored XSS - code is permanently saved on the server and sent to clients as response to requests (the most severe)</li>
+    </ul>
+
+    <h1>
+        ## Preventive measures
+    </h1>
+    <ul>
+        <li id="li-0" onclick="toggle_description(this.id);">Contextual output encoding/escaping of string input</li>
+        <div class="drop-item">
+            <p> Contextual output encoding/escaping could be used as the primary defense mechanism to stop XSS attacks. There are several escaping schemes that can be used depending on where the untrusted string needs to be placed within an HTML document including HTML entity encoding, JavaScript escaping, CSS escaping, and URL (or percent) encoding.</p>
+            <p> Most web applications that do not need to accept rich data can use escaping to largely eliminate the risk of XSS attacks in a fairly straightforward manner.
+            Although widely recommended, performing HTML entity encoding only on the five XML significant characters is not always sufficient to prevent many forms of XSS attacks.</p>
+            <p>As encoding is often difficult, security encoding libraries are usually easier to use.
+            Some web template systems understand the structure of the HTML they produce and automatically pick an appropriate encoder. However, even with a template system, it is essential not to place untrusted data in unquoted attributes, hyperlink's HREF-attributes, inline DOM event handlers, or other similar contexts where script execution is directly possible.</p>
+        </div>
+        <li id="li-1" onclick="toggle_description(this.id);">Safely validating untrusted HTML input</li>
+        <p class="drop-item">TBD</p>
+        <li id="li-2" onclick="toggle_description(this.id);">Cookie security</li>
+        <p class="drop-item">TBD</p>
+        <li id="li-3" onclick="toggle_description(this.id);">Disabling scripts</li>
+        <p class="drop-item">TBD</p>
+        <li id="li-4" onclick="toggle_description(this.id);">Emerging defensive technologies</li>
+        <p class="drop-item">TBD</p>
+        <li id="li-5" onclick="toggle_description(this.id);">SameSite cookie parameter</li>
+        <div class="drop-item">
+            <p>
+                When a cookie is set with the SameSite=Strict parameter, it is stripped from all cross-origin requests. 
+                When set with SameSite=Lax, it is stripped from all non-"safe" cross-origin requests (that is, requests 
+                other than GET, OPTIONS, and TRACE which have read-only semantics). The feature is implemented in 
+                Google Chrome since version 63 and Firefox since version 60.
+            </p>
+        </div>
+    </ul>
+
+    <h1>
+        ## Demo Example (Stored + DOM type)
+    </h1>
+    <p>
+        Below, you can see a chatting window which represents website functionality such as comment senction, forum etc.
+        Messages from users are being stored into the database on the server side. Client can communicate with the server via
+        simple API endpoints, while following the same-origin policy.
+    </p>
+
+    <div>
+        <span class="help title">
+            Try submit any of the following:
+        </span>
+        <!---------- TEXTAREA START ---------->
+        <textarea id="help-solution-code" disabled>
+
+    <img src=none onerror='alert("Hello from JS!");'>
+
+    <b onmouseover="alert('Hello from JS!');">Mouse over me!</b>
+
+        </textarea>
+        <!---------- TEXTAREA ENDF ---------->
+    </div>
+
+    <script>fetch_messages();</script>
+    <div class="col space-between">
+
+        <!-- Chatting window -->
+        <div class="chat room" onload="fetch_messages();">
+            <div id="chat-window" class="chat window"></div>
+            <form id="chat-form">
+                <div class="chat username">
+                    Enter your username:
+                    <input type="text" name="username">
+                </div>
+                <textarea type="text" class="chat input-box" name="message"></textarea>
+                <div onclick="send_message();" class="chat submit-btn">Submit</div>
+                <div onclick="clear_chat();" class="chat submit-btn">Clear Messages</div>
+            </form>
+        </div>
+
+        <div class="security row">
+            <p>
+                Enable security measure:
+                <br>
+                (client side: innerText)
+            </p>
+            <div id="enable-security-client" class="checkbox" onclick="{toggle_checkbox(this.id); toggle_client_side_security();}"></div>
+        </div>
+    
+        <div class="security row">
+            <p>
+                Enable security measure:
+                <br>
+                (server side: HTML escaping)
+            </p>
+            <div id="enable-security-server" class="checkbox" onclick="{toggle_checkbox(this.id); toggle_server_side_security();}"></div>
+        </div>
+    </div>
+
+    <h2>
+        ### What happened?
+    </h2>
+    <p> 
+        As you can see, it is possible to execute malicious code on client machines after they display message history which
+        was provided directly by trusted server. Note, that while this app creates new instance of database for each user 
+        (your scripts won't be displayed to other users using this app right now), other sites like e-shops and forums will 
+        send exact message history to all users, since it's public, thus all visitors could be victims of your malicious code.
+        This could pose a severe security risk to all of them.
+    </p>
+
+    <h2>
+        ### Protection example: node.innerText (client side)
+    </h2>
+    <p> 
+        The insecure client will append received messages into display area directly using <i>area.innerHTML = message;</i> command.
+        If HTML tags are present within the message, these elements are being added into DOM tree therefore their event handlers
+        can be executed.
+        <br><br>
+        Using <i>node.innerText</i> will enforce browser to treat contents as plain text and prevent any tags from being added into
+        DOM tree structure. This approach is usually considered to be safe.
+    </p>
+
+    <h2>
+        ### Protection example: HTML escaping (server side)
+    </h2>
+    <p> 
+        When server receives message, it will automatically replace all HTML specific characters for their equivalents in escaped form:
+        <ul>
+            <li>&lt = &amplt</li>
+            <li>&gt = &ampgt</li>
+            <li>& = &ampamp</li>
+            <li>" = &ampquot</li>
+        </ul>
+        Escaped messages will still appear as original characters on the screen, but won't be treated as tags by the browser.
+        <br><br>
+        Note: While enabling both security measures, <i>node.innerText</i> won't display escaped characters as normal, but
+        as raw received message including escaped sequences. 
+    </p>
+
+    <footer>
+        Created by Michal Rein, 2022
+    </footer>
+
+</body>
+</html>

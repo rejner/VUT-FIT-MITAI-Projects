@@ -1,0 +1,58 @@
+/*
+*   Styles for wallet (CSRF page)
+*/
+
+.wallet.column {
+    padding: 15px;
+    width: calc(100%-15px);
+    overflow: hidden;
+}
+
+.wallet.window {
+    max-width: 35%;
+    min-width: 350px;
+    border: 2px solid var(--headline-color);
+    display: none;
+    flex-direction: column;
+}
+
+.wallet.send-btn {
+    border-top: 2px solid var(--headline-color); 
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+    margin-top: 10px;
+}
+
+.wallet.logout-btn {
+    border-top: 2px solid var(--headline-color); 
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+.wallet.column>input {
+    margin-top: 15px;
+    height: 25px;
+    width: calc(100% - 15px/2);
+    border: none;
+    background-color: var(--bg-color);
+    outline: none;
+    color: var(--text-color);
+    border: 2px solid var(--headline-color);
+    text-align: center;
+}
+
+.wallet.send-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.wallet.logout-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    user-select: none;
+}

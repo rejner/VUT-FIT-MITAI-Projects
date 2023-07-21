@@ -1,0 +1,30 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "WAP Shool project 1",
+  "main": "teset.mjs",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "author": "Michal Rein",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {},
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx",
+      "node",
+      "mjs"
+    ],
+    "testEnvironment": "jest-environment-node",
+    "testMatch": [
+      "**/__tests__/**/*.?(m)js?(x)",
+      "**/?(*.)(spec|test).?(m)js?(x)"
+    ]
+  }
+}

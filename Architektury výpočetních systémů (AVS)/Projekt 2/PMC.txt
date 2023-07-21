@@ -1,0 +1,101 @@
+Architektury Výpočetních Systémů (AVS 2021)
+Projekt č. 2 (PMC)
+
+Úloha 1: Paralelizace původního řešení
+===============================================================================
+
+1) Kterou ze smyček (viz zadání) je vhodnější paralelizovat a co způsobuje 
+   neefektivitu paralelizaci té druhé?
+
+   Vhodnější je paralelizovat smyčku uvnitř funkce marchCubes. Funkci evaluateFieldAt
+   nemá moc smysl paralelizovat, protože celý výpočet se dá hezky logicky rozdělit tak, že
+   pro každou iteraci v marchCubes počítáme jednu kostku. Kdybychom paralelizovali evaluateFieldAt,
+   muselo by vždy jedno vlákno proběhnout funkci buildCube a poté se rozdělit, což moc nedává
+   smysl, protože ostatní by během této doby museli čekat.
+
+2) Jaké plánování (rozdělení práce mezi vlákna) jste zvolili a proč? 
+   Jaký vliv má velikost "chunk" při dynamickém plánování (8, 16, 32, 64)?
+
+   Při dynamickém plánování jsem neviděl žádnou změnu, takže jsem nechal
+   chytrý kompilátor ať zvolí co uzná za vhodný. Rychlost však zůstala +- stejná.
+
+3) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+
+   Pomocí redukce.
+
+
+Úloha 2: Paralelní průchod stromem
+===============================================================================
+
+1) Stručně popište použití OpenMP tasků ve vašem řešení.
+
+   Začátek výpočtu průchodu stromem počítá pouze s jedním hlavním procesem,
+   který kostku nejdříve rozřeže na 8 dílků a naskládá je do fronty pro čekající
+   vlákna. Ty si tyto úkoly rozeberou a začnou na nich pracovat. Následně každé z těchto vláken
+   opět rozřízne kostku na 8 podkostiček (když je to možné) a vloží je do fronty.
+   Z této fronty si pak ostatní účastníci opět odebírají úkoly, dokud není fronta prázdná. 
+
+2) Jakým způsobem jste realizovali sesbírání celkového počtu trojúhelníků?
+
+   Pomocí kritických částí a využití rekurzivní povahy výpočtu.
+
+3) Jaký vliv má na vaše řešení tzv. "cut-off"? Je vhodné vytvářet nový 
+   task pro každou krychli na nejnižší úrovni?
+
+   Cut-off je poměrně dost efektivní metoda, jak předejít výpočtu krychlí, které
+   v sobě žádné trojúhelníky nemají. Pro menší velikosti šířky krychlí je celá režie
+   kolem cut-offu spíše na škodu, výrazné zrychlení však způsobuje čím větší je
+   mřížka krychlí (grid).
+
+4) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+
+   Existuje globálně pole polí vektorů, kde každý index tohoto pole je vyhrazen pro každé
+   vlákno zvlášť (vytvoří se tedy pole o velikost X, kde X značí počet vláken).
+   Každé vlákno pak skládá svoje trojúhelníky právě na tento index. Jakmile se výpočet dokončí,
+   iterací přes toto pole dojde k sloučení všech trojúhelníků do jednoho pole, které
+   je výsledkem celého výpočtu.
+
+Úloha 3: Grafy škálování všech řešení
+===============================================================================
+
+1) Stručně zhodnoťte efektivitu vytvořených řešení (na základě grafů škálování).
+
+   Na základě grafů je jasně viditelný fakt, že Loop implementace je efektivnější
+   pro menší mřížky. S rostoucí mřížkou se však efektivita octree implementace
+   zvyšuje, až předběhne implementaci loop.
+
+
+2) V jakém případě (v závislosti na počtu bodů ve vstupním souboru a velikosti 
+   mřížky) bude vaše řešení 1. úlohy neefektivní? (pokud takový případ existuje)
+
+   Podle grafu přibližně od 2^13 počtu prvků mřízky a výš.
+
+3) Je (nebo není) stromový algoritmus efektivnější z pohledu slabého škálování 
+   vzhledem ke vstupu?
+
+   Dle výstupních grafů to vypadá že je.
+
+Úloha 4: Analýza využití jader pomocí VTune
+================================================================================
+
+1) Jaké bylo průměrné využití jader pro všechny tři implementace s omezením na 
+   18 vláken? Na kolik procent byly využity?
+   
+   ref: 2.8%
+   loop: 47.6%
+   tree: 38.7%
+
+2) Jaké bylo průměrné využití jader pro všechny tři implementace s využitím 
+   všech jader? Na kolik procent se podařilo využít obě CPU?
+   
+   ref: 2.8%
+   loop: 78.5%
+   tree: 41.3%
+
+3) Jaké jsou závěry z těchto měření?
+
+   Referenční implementace je nejméně efektivní.
+   Loop implementace nejlépe a nejefektivněji využívá paralelizaci pomocí vláken.
+   Tree implementace není tak efektivní v paralelizaci samotné, ale díky
+   prevenci zbytečných výpočtů je obecně stejně rychlejší na výpočet než loop.
+

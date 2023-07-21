@@ -1,0 +1,14 @@
+S,A,B,C,D,E,F,G,H,I
+a,b,c,d,e
+S
+S->ASB
+S->#
+A->a
+B->b
+B->G
+C->D
+D->E
+F->e
+E->F
+G->A
+H->I

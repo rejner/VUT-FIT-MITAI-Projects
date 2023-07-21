@@ -1,0 +1,32 @@
+{
+  "name": "wap-project_2",
+  "version": "1.0.0",
+  "description": "WAP Project 2 - App demonstrating web vulnerabilities",
+  "main": "main.js",
+  "dependencies": {
+    "connect-livereload": "^0.6.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "ip": "^1.1.5",
+    "jsdoc": "^3.6.10",
+    "jsdoc-route-plugin": "^0.1.0",
+    "livereload": "^0.9.3",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "watch": "nodemon --ext *",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rejner/WAP-Project_2.git"
+  },
+  "author": "Michal Rein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rejner/WAP-Project_2/issues"
+  },
+  "homepage": "https://github.com/rejner/WAP-Project_2#readme"
+}

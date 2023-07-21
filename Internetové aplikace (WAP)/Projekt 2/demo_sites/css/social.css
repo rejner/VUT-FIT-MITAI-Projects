@@ -1,0 +1,72 @@
+@import url(//db.onlinewebfonts.com/c/fd6fa80f1e3345834599de891cca3f4c?family=OCR+A+Extended);
+
+:root {
+    --bg-color: #262629;
+    --headline-color: #1bdd25;
+    --text-color: #7ad430;
+    --select-color: #ffffff;
+    --error-color: #f76969;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.social.window {
+    padding: 2% 5%;
+    width: 500px;
+    border: 2px solid var(--headline-color);
+    flex-direction: column;
+}
+
+.social.icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--headline-color);
+    padding: 5%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.social.message {
+    padding: 25px 0;
+}
+
+.social.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.social.button {
+    display: flex;
+    justify-content: center;
+    padding: 1% 5%;
+    width: 50px;
+    border: 2px solid var(--headline-color);
+    cursor: pointer;
+}
+
+.social.button:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.social.reactions {
+    padding: 3% 0;
+}
+
+/* Make profile for small devices (< tablet) */
+@media only screen and (max-width: 600px) {
+    .social.window {
+        width: 85%;
+    }
+
+}

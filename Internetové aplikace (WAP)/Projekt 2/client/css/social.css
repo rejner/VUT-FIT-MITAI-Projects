@@ -1,0 +1,120 @@
+/*
+*   Styles for social media post (Clickjacking page)
+*/
+
+.social.window {
+    position: absolute;
+    top: 0;
+    padding: 2% 5%;
+    width: 500px;
+    border: 2px solid var(--headline-color);
+    flex-direction: column;
+    background-color: transparent;
+    color: var(--overlay-text-color);
+}
+
+
+.social.icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--headline-color);
+    padding: 5%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.social.message {
+    padding: 25px 0;
+}
+
+.social.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 4;
+}
+
+.social.button {
+    display: flex;
+    justify-content: center;
+    padding: 1% 5%;
+    width: 50px;
+    border: 2px solid var(--headline-color);
+    cursor: pointer;
+    background-color: var(--bg-color);
+    pointer-events: none;
+    z-index: 4;
+}
+
+.social.button:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    user-select: none;
+    z-index: 4;
+}
+
+.social.reactions {
+    padding: 3% 0;
+}
+
+#social-post-iframe {
+    position: absolute;
+    width: 100%;
+    height: 320px;
+    outline: none;
+    border: none;
+    opacity: 1;
+    z-index: 3;
+}
+
+#scam-frame {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+#scam-frame-settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 2% 0%;
+}
+
+.red {
+    border: none;
+    border: 2px solid #d12929 !important;
+    color: #d12929;
+}
+
+/* Make profile for small devices (< tablet) */
+@media only screen and (max-width: 768px) {
+    .social.window {
+        width: 85%;
+        height: 300px !important;
+        max-height: 300px !important;
+        top: -100px;
+        border-color: transparent;
+    }
+
+    #social-post-iframe {
+        width: 100%;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+}
+
+/* Make profile for small devices (< phones) */
+@media only screen and (max-width: 400px) {
+    .social.window {
+        top: -92px;
+    }
+}

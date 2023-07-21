@@ -1,0 +1,82 @@
+/*
+*   Styles for chatting window (XSS page)
+*/
+
+.chat.room {
+    width: 50%;
+    border: 2px solid var(--headline-color);
+}
+
+.chat.window {
+    padding: 5%;
+    max-height: 200px;
+}
+
+.chat.item {
+    width: 100%;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat.item>.item-username {
+    width: 15%;
+    overflow: hidden;
+}
+
+.chat.input-box {
+    width: 100%;
+    height: 150px;
+    padding: 5%;
+    box-sizing: border-box;
+    outline: none;
+    caret-color: var(--headline-color);
+    color: var(--text-color);
+    background-color: transparent;
+    resize: none;
+    border: none;
+    border-top: 2px solid var(--headline-color);
+}
+
+.chat.username {
+    padding: 2% 5%;
+    border-top: 2px solid var(--headline-color);
+}
+
+.chat.username>input {
+    border: none;
+    background-color: var(--bg-color);
+    outline: none;
+    color: var(--text-color);
+}
+
+.chat.submit-btn {
+    border-top: 2px solid var(--headline-color); 
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+.chat.submit-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Make profile for small devices (< tablet) */
+@media only screen and (max-width: 768px) {
+    .chat.room {
+        width: 100%;
+    }  
+
+    .security.row {
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+    }
+
+    .typewriter h1 {
+        white-space: pre-line;
+    }
+}

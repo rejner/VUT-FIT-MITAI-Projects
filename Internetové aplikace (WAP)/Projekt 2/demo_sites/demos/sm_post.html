@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/social.css">
+    <title>Document</title>
+</head>
+<body onload="site_init();">
+    <div id="window" class="social window"> 
+        <div class="row">
+            <div class="social icon">
+                <span>__</span>
+                <span>_||_</span>
+                <span><'_'></span>
+                <span>/M\</span>
+            </div>
+            <div class="row space-between">
+                <p><span style="font-weight: bold;">John Doe</span><br>@john.doe</p>
+                15.04.2022 20:22
+            </div>
+        </div>
+        
+        <div class="social message">
+            I believe that putting pineapple on pizza should be illegal. Change my mind...
+        </div>
+
+        <div id="reactions" class="social reactions row space-between">
+            <span>0x like</span>
+            <span>0x dislike</span>
+        </div>
+
+        <div class="social buttons">
+            <div class="social button">Reply</div>
+            <div class="social button" onclick="press_like();">Like</div>
+            <div class="social button" onclick="press_dislike();">Dislike</div>
+        </div>
+    </div>
+    <script src="../scripts/sm_post.js" onload="update_reactions();"></script>
+</body>
+</html>
